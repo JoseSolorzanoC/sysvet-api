@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DocumentType {
+  id Int @id @default(autoincrement())
+  documentName String @unique
+  documentType String @db.VarChar(2)
+  status Boolean
+  persons Person[]
+}
+
+model Person {
+  id String @id @default(uuid())
+  documentTypeId Int
+  documentNumber String @db.VarChar()
+  fullName String
+  birthDate DateTime? @db.Date
+  cellphone String? @db.Char(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@unique([documentTypeId, documentNumber])
+
+  documentType DocumentType @relation(fields: [documentTypeId], references: [id])
+  user User?
+}
+
+enum Role {
+  USER
+  ADMIN
+  DOCTOR
+}
+
+model User {
+  id String @id @default(uuid())
+  personId String @unique
+  email String @unique
+  passwordHash String @db.Text
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+  status Boolean
+  role Role @default(USER)
+  pets Pet[]
+
+  person Person @relation(fields: [personId], references: [id])
+}
+
+model PetSpecie {
+  id Int @id @default(autoincrement())
+  name String
+  status Boolean
+  pets Pet[]
+}
+
+model PetRace {
+  id Int @id @default(autoincrement())
+  name String
+  status Boolean
+  pets Pet[]
+}
+
+model Pet {
+  id String @id @default(uuid())
+  tutorId String
+  raceId Int?
+  specieId Int?
+  name String
+  birthDate DateTime @db.Date
+  furColor String
+  lastWeight Float? @default(0)
+  photoUrl String?
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+
+  tutor User @relation(fields: [tutorId], references: [id])
+  petRace PetRace? @relation(fields: [raceId], references: [id])
+  petSpecie PetSpecie? @relation(fields: [specieId], references: [id])
+  apointmenPets AppointmentPets[]
+}
+
+model Appointment {
+  id String @id @default(uuid())
+  tutorId String
+  reason String
+  date DateTime
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+  status Boolean
+
+  appointmentPets AppointmentPets[]
+}
+
+model AppointmentPets {
+  id Int @id @default(autoincrement())
+  appointmentId String
+  petId String
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  pet Pet @relation(fields: [petId], references: [id])
+}
