@@ -53,7 +53,7 @@ model User {
   role Role @default(USER)
   pets Pet[]
 
-  person Person @relation(fields: [personId], references: [id])
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
 }
 
 model PetSpecie {

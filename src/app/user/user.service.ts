@@ -4,16 +4,17 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-    constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
 
-    getDoctors(): Promise<User[]> {
-        return this.prismaService.user.findMany({
-            where: {
-                role: Role.DOCTOR,
-            },
-            include: {
-                person: true,
-            },
-        });
-    }
+  getDoctors(): Promise<User[]> {
+    return this.prismaService.user.findMany({
+      where: {
+        role: Role.DOCTOR,
+        status: true,
+      },
+      include: {
+        person: true,
+      },
+    });
+  }
 }
