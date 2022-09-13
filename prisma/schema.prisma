@@ -14,7 +14,7 @@ model DocumentType {
   id Int @id @default(autoincrement())
   documentName String @unique
   documentType String @db.VarChar(2)
-  status Boolean
+  status Boolean @default(true)
   persons Person[]
 }
 
@@ -49,7 +49,7 @@ model User {
   createdBy String?
   updatedAt DateTime @updatedAt
   updatedBy String?
-  status Boolean
+  status Boolean @default(true)
   role Role @default(USER)
   pets Pet[]
 
@@ -88,6 +88,7 @@ model Pet {
   petRace PetRace? @relation(fields: [raceId], references: [id])
   petSpecie PetSpecie? @relation(fields: [specieId], references: [id])
   apointmenPets AppointmentPets[]
+  clinicalConsultations ClinicalConsultation[]
 }
 
 model Appointment {
@@ -99,7 +100,7 @@ model Appointment {
   createdBy String?
   updatedAt DateTime @updatedAt
   updatedBy String?
-  status Boolean
+  status Boolean @default(true)
 
   appointmentPets AppointmentPets[]
 }
@@ -111,4 +112,41 @@ model AppointmentPets {
 
   appointment Appointment @relation(fields: [appointmentId], references: [id])
   pet Pet @relation(fields: [petId], references: [id])
+}
+
+model ClinicalConsultation {
+  id String @id @default(uuid())
+  petId String
+  reason String
+  openedDate DateTime @db.Date
+  anamnesis String
+  petCf Float
+  petRf Float
+  petPulse Float
+  petTemperature Float
+  petConsultationWeight Float
+  petAttitude String
+  petCorporalCondition String
+  petHidratationState String
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+  status Boolean @default(true)
+
+  pet Pet @relation(fields: [petId], references: [id])
+  clinicalConsultationTreatment ClinicalConsultationTreatment[]
+}
+
+model ClinicalConsultationTreatment {
+  id String @id @default(uuid())
+  clinicalConsultationId String
+  productName String
+  posology String
+  totalDose Float
+  status Boolean @default(true)
+
+  @@unique([id, clinicalConsultationId])
+
+  clinicalConsultation ClinicalConsultation @relation(fields: [clinicalConsultationId], references: [id])
 }

@@ -24,7 +24,7 @@ export const ADMIN_OPTIONS = [
   'turnos',
   'mascotas',
   'medicos',
-  'usuarios_admin',
+  //'usuarios_admin',
   'mi_informacion',
 ];
 
