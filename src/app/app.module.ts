@@ -7,6 +7,7 @@ import { PetsModule } from './pets/pets.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { ClinicalConsultationModule } from './clinical-consultation/clinical-consultation.module';
+import { ProductsModule } from './products/products.module';
 @Module({
   imports: [
     AuthModule,
@@ -17,6 +18,7 @@ import { ClinicalConsultationModule } from './clinical-consultation/clinical-con
     PetsModule,
     AppointmentModule,
     ClinicalConsultationModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

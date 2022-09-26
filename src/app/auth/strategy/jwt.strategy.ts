@@ -21,6 +21,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             where: {
                 id: payload.sub,
             },
+            include: {
+                person: true
+            }
         });
         delete user.passwordHash;
         return user;

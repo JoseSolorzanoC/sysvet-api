@@ -12,6 +12,7 @@ export interface ClinicalConsultationDto {
   petCorporalCondition: string;
   petHidratationState: string;
   clinicalConsultationTreatment: {
+    id: string;
     productName: string;
     posology: string;
     totalDose: number;

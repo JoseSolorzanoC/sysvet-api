@@ -111,7 +111,7 @@ model AppointmentPets {
   petId String
 
   appointment Appointment @relation(fields: [appointmentId], references: [id])
-  pet Pet @relation(fields: [petId], references: [id])
+  pet Pet @relation(fields: [petId], references: [id], onDelete: Cascade)
 }
 
 model ClinicalConsultation {
@@ -134,13 +134,27 @@ model ClinicalConsultation {
   updatedBy String?
   status Boolean @default(true)
 
-  pet Pet @relation(fields: [petId], references: [id])
+  pet Pet @relation(fields: [petId], references: [id], onDelete: Cascade)
+  clinicalConsultationTreatment ClinicalConsultationTreatment[]
+}
+
+model Product {
+  id String @id @default(uuid())
+  productName String
+  currentStock Float
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+  status Boolean @default(true)
+
   clinicalConsultationTreatment ClinicalConsultationTreatment[]
 }
 
 model ClinicalConsultationTreatment {
   id String @id @default(uuid())
   clinicalConsultationId String
+  productId String?
   productName String
   posology String
   totalDose Float
@@ -149,4 +163,5 @@ model ClinicalConsultationTreatment {
   @@unique([id, clinicalConsultationId])
 
   clinicalConsultation ClinicalConsultation @relation(fields: [clinicalConsultationId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
 }

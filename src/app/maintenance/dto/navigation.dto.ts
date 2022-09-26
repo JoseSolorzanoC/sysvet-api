@@ -19,13 +19,14 @@ export const DOCTOR_OPTIONS = [
   'mascotas',
   'consulta',
   'mi_informacion',
+  'productos',
 ];
 export const ADMIN_OPTIONS = [
   'turnos',
   'mascotas',
   'medicos',
-  //'usuarios_admin',
   'mi_informacion',
+  'productos',
 ];
 
 export const navigationData: FuseNavigationItem[] = [
@@ -70,5 +71,12 @@ export const navigationData: FuseNavigationItem[] = [
     type: 'basic',
     icon: 'mat_outline:info',
     link: '/mi-informacion',
+  },
+  {
+    id: 'productos',
+    title: 'Productos',
+    type: 'basic',
+    icon: 'mat_outline:inventory',
+    link: '/productos',
   },
 ];
