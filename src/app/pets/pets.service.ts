@@ -32,11 +32,32 @@ export class PetsService {
         orderBy: {
           createdAt: 'desc',
         },
-        include: { petRace: true, petSpecie: true },
+        include: {
+          petRace: true,
+          petSpecie: true,
+        },
       });
     }
     return this.prismaService.pet.findMany({
       include: { petRace: true, petSpecie: true },
+    });
+  }
+
+  getPetById(petId: string): Promise<Pet> {
+    return this.prismaService.pet.findUnique({
+      where: {
+        id: petId,
+      },
+      include: {
+        tutor: {
+          include: {
+            person: true,
+          },
+        },
+        petRace: true,
+        petSpecie: true,
+        clinicalConsultations: true,
+      },
     });
   }
 

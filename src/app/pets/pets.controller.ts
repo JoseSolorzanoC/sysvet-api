@@ -26,6 +26,12 @@ export class PetsController {
   }
 
   @Auth()
+  @Get(':id')
+  getPetById(@Param('id') petId: string): Promise<Pet> {
+    return this.petsService.getPetById(petId);
+  }
+
+  @Auth()
   @Post('new')
   @UseInterceptors(FileInterceptor('file'))
   savePet(
